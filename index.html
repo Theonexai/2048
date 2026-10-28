@@ -1,89 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>2048</title>
-
-  <link href="style/main.css" rel="stylesheet" type="text/css">
-  <link rel="shortcut icon" href="favicon.ico">
-  <link rel="apple-touch-icon" href="meta/apple-touch-icon.png">
-  <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone 5+ -->
-  <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x920.png"  media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone, retina -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b2b">
+  <meta name="description" content="Play 2048 on HopMint Games. Merge tiles, beat your best, and pick up where you left off.">
+  <title>2048 | HopMint Games</title>
+  <link href="style/hopmint.css" rel="stylesheet">
+  <link rel="icon" href="meta/hopmint-icon.svg" type="image/svg+xml">
 </head>
 <body>
-  <div class="container">
-    <div class="heading">
-      <h1 class="title">2048</h1>
-      <div class="scores-container">
-        <div class="score-container">0</div>
-        <div class="best-container">0</div>
-      </div>
-    </div>
+  <main class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="#game" aria-label="HopMint Games home">
+        <span class="brand-mark" aria-hidden="true">H</span>
+        <span>HopMint <span class="brand-light">Games</span></span>
+      </a>
+      <span class="header-note">A little number play</span>
+    </header>
 
-    <div class="above-game">
-      <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
-      <a class="restart-button">New Game</a>
-    </div>
-
-    <div class="game-container">
-      <div class="game-message">
-        <p></p>
-        <div class="lower">
-	        <a class="keep-playing-button">Keep going</a>
-          <a class="retry-button">Try again</a>
+    <section class="game-card" id="game" aria-labelledby="game-title">
+      <div class="game-heading">
+        <div class="title-block">
+          <p class="eyebrow">THE CLASSIC PUZZLE</p>
+          <h1 id="game-title">2048</h1>
+          <p class="game-intro">Slide, merge, and make it to <strong>2048.</strong></p>
+        </div>
+        <div class="scores-container" aria-label="Game scores">
+          <div class="score-card"><span class="score-label">Score</span><span class="score-container" aria-live="off">0</span></div>
+          <div class="score-card score-card-best"><span class="score-label">Best</span><span class="best-container" aria-live="off">0</span></div>
         </div>
       </div>
 
-      <div class="grid-container">
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
+      <div class="game-toolbar">
+        <p class="game-hint"><span class="touch-hint"><span aria-hidden="true">↔</span> Swipe to move</span><span class="keyboard-hint">Arrow keys to move</span></p>
+        <button class="restart-button" type="button">New game</button>
       </div>
 
-      <div class="tile-container">
-
+      <div class="game-container" role="group" tabindex="0" aria-label="2048 game board. Swipe in any direction to move tiles, or use the arrow keys.">
+        <div class="game-message" aria-live="assertive">
+          <p></p>
+          <div class="lower">
+            <button class="keep-playing-button" type="button">Keep playing</button>
+            <button class="retry-button" type="button">Try again</button>
+          </div>
+        </div>
+        <div class="grid-container" aria-hidden="true">
+          <div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div>
+          <div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div>
+          <div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div>
+          <div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div>
+        </div>
+        <div class="tile-container" role="grid" aria-label="Game tiles" aria-rowcount="4" aria-colcount="4"></div>
       </div>
-    </div>
 
-    <p class="game-explanation">
-      <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
-    </p>
-    <hr>
-    <p>
-    <strong class="important">Note:</strong> This site is the official version of 2048. You can play it on your phone via <a href="http://git.io/2048">http://git.io/2048.</a> All other apps or sites are derivatives or fakes, and should be used with caution.
-    </p>
-    <hr>
-    <p>
-    Created by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a> Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio</a> and conceptually similar to <a href="http://asherv.com/threes/" target="_blank">Threes by Asher Vollmer.</a>
-    </p>
-  </div>
+      <p class="score-announcer visually-hidden" aria-live="polite" aria-atomic="true"></p>
+      <details class="how-to-play">
+        <summary>How to play</summary>
+        <p>Use the arrow keys or swipe to move every tile. Matching numbers merge into one and add to your score. A new 2 or 4 appears after each move. Reach 2048 to win; keep playing if you want to go further.</p>
+      </details>
+    </section>
+
+    <footer class="site-footer">
+      <p>Inspired by <a href="https://github.com/gabrielecirulli/2048">2048 by Gabriele Cirulli</a>, based on 1024 by Veewo Studio and conceptually similar to Threes by Asher Vollmer.</p>
+      <p>HopMint Games adaptation. The original 2048 source is provided under the MIT License; see <a href="LICENSE.txt">LICENSE.txt</a> for copyright and license terms.</p>
+    </footer>
+  </main>
 
   <script src="js/bind_polyfill.js"></script>
   <script src="js/classlist_polyfill.js"></script>

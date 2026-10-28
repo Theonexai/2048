@@ -15,6 +15,11 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
 
 // Restart the game
 GameManager.prototype.restart = function () {
+  var confirmed = !this.hasActiveGame() ||
+    window.confirm("Start a new game? Your current game will be lost.");
+  if (!confirmed) {
+    return;
+  }
   this.storageManager.clearGameState();
   this.actuator.continueGame(); // Clear the game won/lost message
   this.setup();
@@ -43,12 +48,14 @@ GameManager.prototype.setup = function () {
     this.over        = previousState.over;
     this.won         = previousState.won;
     this.keepPlaying = previousState.keepPlaying;
+    this.hasMoved    = !!previousState.hasMoved;
   } else {
     this.grid        = new Grid(this.size);
     this.score       = 0;
     this.over        = false;
     this.won         = false;
     this.keepPlaying = false;
+    this.hasMoved    = false;
 
     // Add the initial tiles
     this.addStartTiles();
@@ -105,8 +112,13 @@ GameManager.prototype.serialize = function () {
     score:       this.score,
     over:        this.over,
     won:         this.won,
-    keepPlaying: this.keepPlaying
+    keepPlaying: this.keepPlaying,
+    hasMoved:    this.hasMoved
   };
+};
+
+GameManager.prototype.hasActiveGame = function () {
+  return this.hasMoved && !this.over && !this.isGameTerminated();
 };
 
 // Save all tile positions and remove merger info
@@ -180,6 +192,7 @@ GameManager.prototype.move = function (direction) {
   });
 
   if (moved) {
+    this.hasMoved = true;
     this.addRandomTile();
 
     if (!this.movesAvailable()) {

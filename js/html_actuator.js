@@ -3,6 +3,7 @@ function HTMLActuator() {
   this.scoreContainer   = document.querySelector(".score-container");
   this.bestContainer    = document.querySelector(".best-container");
   this.messageContainer = document.querySelector(".game-message");
+  this.scoreAnnouncer   = document.querySelector(".score-announcer");
 
   this.score = 0;
 }
@@ -46,7 +47,7 @@ HTMLActuator.prototype.clearContainer = function (container) {
   }
 };
 
-HTMLActuator.prototype.addTile = function (tile) {
+HTMLActuator.prototype.addTile = function (tile, decorative) {
   var self = this;
 
   var wrapper   = document.createElement("div");
@@ -60,6 +61,15 @@ HTMLActuator.prototype.addTile = function (tile) {
   if (tile.value > 2048) classes.push("tile-super");
 
   this.applyClasses(wrapper, classes);
+  if (decorative) {
+    wrapper.setAttribute("aria-hidden", "true");
+  } else {
+    wrapper.setAttribute("role", "gridcell");
+    wrapper.setAttribute("aria-label", tile.value + " at row " + (tile.y + 1) +
+      ", column " + (tile.x + 1));
+    wrapper.setAttribute("aria-rowindex", tile.y + 1);
+    wrapper.setAttribute("aria-colindex", tile.x + 1);
+  }
 
   inner.classList.add("tile-inner");
   inner.textContent = tile.value;
@@ -76,7 +86,7 @@ HTMLActuator.prototype.addTile = function (tile) {
 
     // Render the tiles that merged
     tile.mergedFrom.forEach(function (merged) {
-      self.addTile(merged);
+      self.addTile(merged, true);
     });
   } else {
     classes.push("tile-new");
@@ -117,6 +127,10 @@ HTMLActuator.prototype.updateScore = function (score) {
     addition.textContent = "+" + difference;
 
     this.scoreContainer.appendChild(addition);
+    if (this.scoreAnnouncer) {
+      this.scoreAnnouncer.textContent = "Score " + this.score +
+        ". Gained " + difference + " points.";
+    }
   }
 };
 
@@ -136,4 +150,5 @@ HTMLActuator.prototype.clearMessage = function () {
   // IE only takes one value to remove at a time.
   this.messageContainer.classList.remove("game-won");
   this.messageContainer.classList.remove("game-over");
+  this.messageContainer.getElementsByTagName("p")[0].textContent = "";
 };
